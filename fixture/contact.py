@@ -14,7 +14,7 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
-        self.return_home_page()
+        #self.return_home_page()
 
     def select_first_contact(self):
         wd = self.app.wd
@@ -52,13 +52,20 @@ class ContactHelper:
         # homepage
         self.change_field_value("homepage", contact.homepage)
         # Birthday
-        self.change_field_value_day("bday",contact.bday)
-        self.change_field_value_month("bmonth", contact.bmonth)
-        self.change_field_value("byear", contact.byear)
+        wd.find_element_by_name("bday").click()
+        wd.find_element_by_xpath(contact.bday).click()
+        wd.find_element_by_name("bmonth").click()
+        wd.find_element_by_xpath(contact.bmonth).click()
+        wd.find_element_by_name("byear").clear()
+        wd.find_element_by_name("byear").send_keys(contact.byear)
         # Anniversary
-        self.change_field_value_day("aday", contact.aday)
-        self.change_field_value_day("amonth", contact.amonth)
-        self.change_field_value("ayear", contact.ayear)
+        wd.find_element_by_name("aday").click()
+        wd.find_element_by_xpath(contact.aday).click()
+        wd.find_element_by_name("amonth").click()
+        wd.find_element_by_xpath(contact.amonth).click()
+        wd.find_element_by_name("ayear").clear()
+        wd.find_element_by_name("ayear").send_keys(contact.ayear)
+
         # add address2
         self.change_field_value("address2", contact.address2)
         # add home
@@ -78,7 +85,7 @@ class ContactHelper:
             wd.find_element_by_name(field_month).click()
             wd.find_element_by_xpath(field_month).click()
 
-    def change_field_value(self,field_name, text):
+    def change_field_value(self, field_name, text):
         wd = self.app.wd
         if text is not None:
          wd.find_element_by_name(field_name).click()
@@ -87,8 +94,12 @@ class ContactHelper:
 
     def add(self, contact):
         wd = self.app.wd
-        self.fill_contact_form(contact)
         # option add new
         wd.find_element_by_link_text("add new").click()
+        self.fill_contact_form(contact)
         # save contact
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def count(self):
+        wd = self.app.wd
+        return len(wd.find_elements_by_name("selected[]"))
