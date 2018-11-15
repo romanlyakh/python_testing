@@ -56,15 +56,13 @@ class ContactHelper:
         wd.find_element_by_xpath(contact.bday).click()
         wd.find_element_by_name("bmonth").click()
         wd.find_element_by_xpath(contact.bmonth).click()
-        wd.find_element_by_name("byear").clear()
-        wd.find_element_by_name("byear").send_keys(contact.byear)
+        self.change_field_value("byear", contact.byear)
         # Anniversary
         wd.find_element_by_name("aday").click()
         wd.find_element_by_xpath(contact.aday).click()
         wd.find_element_by_name("amonth").click()
         wd.find_element_by_xpath(contact.amonth).click()
-        wd.find_element_by_name("ayear").clear()
-        wd.find_element_by_name("ayear").send_keys(contact.ayear)
+        self.change_field_value("ayear", contact.ayear)
 
         # add address2
         self.change_field_value("address2", contact.address2)
@@ -72,18 +70,6 @@ class ContactHelper:
         self.change_field_value("phone2", contact.phone2)
         # add notes
         self.change_field_value("notes", contact.notes)
-
-    def change_field_value_day(self, field_day, birthday):
-        wd = self.app.wd
-        if birthday is not None:
-         wd.find_element_by_name(field_day).click()
-         wd.find_element_by_xpath(field_day).click()
-
-    def change_field_value_month(self, field_month, birthmon):
-        wd = self.app.wd
-        if birthmon is not None:
-            wd.find_element_by_name(field_month).click()
-            wd.find_element_by_xpath(field_month).click()
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
