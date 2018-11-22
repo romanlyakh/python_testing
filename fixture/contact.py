@@ -93,6 +93,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.return_home_page()
 
+
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
@@ -101,8 +102,10 @@ class ContactHelper:
         wd = self.app.wd
         self.home()
         contacts = []
-        for element in wd.find_elements_by_name("tr[name=entry]"):
+        for element in wd.find_elements_by_name("entry"):
             cells = element.find_elements_by_tag_name("td")
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(firstname=cells[0].text, lastname=cells[1].text, id=id))
+            firstname = cells[1].text
+            lastname = cells[2].text
+            id = cells[0].find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
         return contacts
