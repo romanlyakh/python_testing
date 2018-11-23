@@ -1,0 +1,379 @@
+Testing started at 23:37 ...
+C:\repo\python_testing\env\Scripts\python.exe "C:\Program Files\JetBrains\PyCharm Community Edition 2018.2.4\helpers\pycharm\_jb_pytest_runner.py" --path C:/repo/python_testing/test/test_del_contact.py
+Launching pytest with arguments C:/repo/python_testing/test/test_del_contact.py in C:\repo\python_testing\test
+
+============================= test session starts =============================
+platform win32 -- Python 3.7.1, pytest-3.9.3, py-1.7.0, pluggy-0.8.0
+rootdir: C:\repo\python_testing\test, inifile:collected 1 item
+
+test_del_contact.py F
+test_del_contact.py:2 (test_delete_first_contact)
+app = <fixture.application.Application object at 0x04979AF0>
+
+    def test_delete_first_contact(app):
+        app.open_home_page()
+        if app.contact.count() == 0:
+           app.contact.add(Contact(firstname="", middlename="", lastname="", nickname="",
+                                    title="", company="", address="",
+                                    home="", mobile="", work="",
+                                    fax="", email="",
+                                    email2="", email3="", homepage="",
+                                    byear="1980", ayear="2020", address2="address_test2",
+                                    phone2="home_test", bday="//option[@value='11']",
+                                    bmonth="//option[@value='January']", notes="notes_test",
+                                    aday="(//option[@value='11'])[2]", amonth="(//option[@value='January'])[2]"))
+        old_contacts = app.contact.get_contact_list()
+        app.contact.delete_first_contact()
+>       new_contacts = app.contact.get_contact_list()
+
+test_del_contact.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\fixture\contact.py:109: in get_contact_list
+    id = cells[0].find_element_by_name("selected[]").get_attribute("value")
+..\env\lib\site-packages\selenium\webdriver\remote\webelement.py:141: in get_attribute
+    self, name)
+..\env\lib\site-packages\selenium\webdriver\remote\webdriver.py:636: in execute_script
+    'args': converted_args})['value']
+..\env\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x04775270>
+response = {'status': 404, 'value': '{"value":{"error":"stale element reference","message":"The element reference of <input id=\\...req<@chrome://marionette/content/listener.js:478:20\\ndispatch/<@chrome://marionette/content/listener.js:477:15\\n"}}'}
+
+    def check_response(self, response):
+        """
+        Checks that a JSON response from the WebDriver does not have an error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get('status', None)
+        if status is None or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json and isinstance(value_json, basestring):
+                import json
+                try:
+                    value = json.loads(value_json)
+                    if len(value.keys()) == 1:
+                        value = value['value']
+                    status = value.get('error', None)
+                    if status is None:
+                        status = value["status"]
+                        message = value["value"]
+                        if not isinstance(message, basestring):
+                            value = message
+                            message = message.get('message')
+                    else:
+                        message = value.get('message', None)
+                except ValueError:
+                    pass
+    
+        exception_class = ErrorInResponseException
+        if status in ErrorCode.NO_SUCH_ELEMENT:
+            exception_class = NoSuchElementException
+        elif status in ErrorCode.NO_SUCH_FRAME:
+            exception_class = NoSuchFrameException
+        elif status in ErrorCode.NO_SUCH_WINDOW:
+            exception_class = NoSuchWindowException
+        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:
+            exception_class = StaleElementReferenceException
+        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:
+            exception_class = ElementNotVisibleException
+        elif status in ErrorCode.INVALID_ELEMENT_STATE:
+            exception_class = InvalidElementStateException
+        elif status in ErrorCode.INVALID_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:
+            exception_class = InvalidSelectorException
+        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:
+            exception_class = ElementNotSelectableException
+        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:
+            exception_class = ElementNotInteractableException
+        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:
+            exception_class = InvalidCookieDomainException
+        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:
+            exception_class = UnableToSetCookieException
+        elif status in ErrorCode.TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.SCRIPT_TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.UNKNOWN_ERROR:
+            exception_class = WebDriverException
+        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:
+            exception_class = UnexpectedAlertPresentException
+        elif status in ErrorCode.NO_ALERT_OPEN:
+            exception_class = NoAlertPresentException
+        elif status in ErrorCode.IME_NOT_AVAILABLE:
+            exception_class = ImeNotAvailableException
+        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:
+            exception_class = ImeActivationFailedException
+        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:
+            exception_class = MoveTargetOutOfBoundsException
+        elif status in ErrorCode.JAVASCRIPT_ERROR:
+            exception_class = JavascriptException
+        elif status in ErrorCode.SESSION_NOT_CREATED:
+            exception_class = SessionNotCreatedException
+        elif status in ErrorCode.INVALID_ARGUMENT:
+            exception_class = InvalidArgumentException
+        elif status in ErrorCode.NO_SUCH_COOKIE:
+            exception_class = NoSuchCookieException
+        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:
+            exception_class = ScreenshotException
+        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:
+            exception_class = ElementClickInterceptedException
+        elif status in ErrorCode.INSECURE_CERTIFICATE:
+            exception_class = InsecureCertificateException
+        elif status in ErrorCode.INVALID_COORDINATES:
+            exception_class = InvalidCoordinatesException
+        elif status in ErrorCode.INVALID_SESSION_ID:
+            exception_class = InvalidSessionIdException
+        elif status in ErrorCode.UNKNOWN_METHOD:
+            exception_class = UnknownMethodException
+        else:
+            exception_class = WebDriverException
+        if value == '' or value is None:
+            value = response['value']
+        if isinstance(value, basestring):
+            if exception_class == ErrorInResponseException:
+                raise exception_class(response, value)
+            raise exception_class(value)
+        if message == "" and 'message' in value:
+            message = value['message']
+    
+        screen = None
+        if 'screen' in value:
+            screen = value['screen']
+    
+        stacktrace = None
+        if 'stackTrace' in value and value['stackTrace']:
+            stacktrace = []
+            try:
+                for frame in value['stackTrace']:
+                    line = self._value_or_default(frame, 'lineNumber', '')
+                    file = self._value_or_default(frame, 'fileName', '<anonymous>')
+                    if line:
+                        file = "%s:%s" % (file, line)
+                    meth = self._value_or_default(frame, 'methodName', '<anonymous>')
+                    if 'className' in frame:
+                        meth = "%s.%s" % (frame['className'], meth)
+                    msg = "    at %s (%s)"
+                    msg = msg % (meth, file)
+                    stacktrace.append(msg)
+            except TypeError:
+                pass
+        if exception_class == ErrorInResponseException:
+            raise exception_class(response, message)
+        elif exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if 'data' in value:
+                alert_text = value['data'].get('text')
+            elif 'alert' in value:
+                alert_text = value['alert'].get('text')
+            raise exception_class(message, screen, stacktrace, alert_text)
+>       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.StaleElementReferenceException: Message: The element reference of <input id="132" name="selected[]" type="checkbox"> is stale; either the element is no longer attached to the DOM, it is not in the current frame context, or the document has been refreshed
+
+..\env\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: StaleElementReferenceException
+                                                    [100%]
+
+================================== FAILURES ===================================
+__________________________ test_delete_first_contact __________________________
+
+app = <fixture.application.Application object at 0x04979AF0>
+
+    def test_delete_first_contact(app):
+        app.open_home_page()
+        if app.contact.count() == 0:
+           app.contact.add(Contact(firstname="", middlename="", lastname="", nickname="",
+                                    title="", company="", address="",
+                                    home="", mobile="", work="",
+                                    fax="", email="",
+                                    email2="", email3="", homepage="",
+                                    byear="1980", ayear="2020", address2="address_test2",
+                                    phone2="home_test", bday="//option[@value='11']",
+                                    bmonth="//option[@value='January']", notes="notes_test",
+                                    aday="(//option[@value='11'])[2]", amonth="(//option[@value='January'])[2]"))
+        old_contacts = app.contact.get_contact_list()
+        app.contact.delete_first_contact()
+>       new_contacts = app.contact.get_contact_list()
+
+test_del_contact.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\fixture\contact.py:109: in get_contact_list
+    id = cells[0].find_element_by_name("selected[]").get_attribute("value")
+..\env\lib\site-packages\selenium\webdriver\remote\webelement.py:141: in get_attribute
+    self, name)
+..\env\lib\site-packages\selenium\webdriver\remote\webdriver.py:636: in execute_script
+    'args': converted_args})['value']
+..\env\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x04775270>
+response = {'status': 404, 'value': '{"value":{"error":"stale element reference","message":"The element reference of <input id=\\...req<@chrome://marionette/content/listener.js:478:20\\ndispatch/<@chrome://marionette/content/listener.js:477:15\\n"}}'}
+
+    def check_response(self, response):
+        """
+        Checks that a JSON response from the WebDriver does not have an error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get('status', None)
+        if status is None or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json and isinstance(value_json, basestring):
+                import json
+                try:
+                    value = json.loads(value_json)
+                    if len(value.keys()) == 1:
+                        value = value['value']
+                    status = value.get('error', None)
+                    if status is None:
+                        status = value["status"]
+                        message = value["value"]
+                        if not isinstance(message, basestring):
+                            value = message
+                            message = message.get('message')
+                    else:
+                        message = value.get('message', None)
+                except ValueError:
+                    pass
+    
+        exception_class = ErrorInResponseException
+        if status in ErrorCode.NO_SUCH_ELEMENT:
+            exception_class = NoSuchElementException
+        elif status in ErrorCode.NO_SUCH_FRAME:
+            exception_class = NoSuchFrameException
+        elif status in ErrorCode.NO_SUCH_WINDOW:
+            exception_class = NoSuchWindowException
+        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:
+            exception_class = StaleElementReferenceException
+        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:
+            exception_class = ElementNotVisibleException
+        elif status in ErrorCode.INVALID_ELEMENT_STATE:
+            exception_class = InvalidElementStateException
+        elif status in ErrorCode.INVALID_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:
+            exception_class = InvalidSelectorException
+        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:
+            exception_class = ElementNotSelectableException
+        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:
+            exception_class = ElementNotInteractableException
+        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:
+            exception_class = InvalidCookieDomainException
+        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:
+            exception_class = UnableToSetCookieException
+        elif status in ErrorCode.TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.SCRIPT_TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.UNKNOWN_ERROR:
+            exception_class = WebDriverException
+        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:
+            exception_class = UnexpectedAlertPresentException
+        elif status in ErrorCode.NO_ALERT_OPEN:
+            exception_class = NoAlertPresentException
+        elif status in ErrorCode.IME_NOT_AVAILABLE:
+            exception_class = ImeNotAvailableException
+        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:
+            exception_class = ImeActivationFailedException
+        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:
+            exception_class = MoveTargetOutOfBoundsException
+        elif status in ErrorCode.JAVASCRIPT_ERROR:
+            exception_class = JavascriptException
+        elif status in ErrorCode.SESSION_NOT_CREATED:
+            exception_class = SessionNotCreatedException
+        elif status in ErrorCode.INVALID_ARGUMENT:
+            exception_class = InvalidArgumentException
+        elif status in ErrorCode.NO_SUCH_COOKIE:
+            exception_class = NoSuchCookieException
+        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:
+            exception_class = ScreenshotException
+        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:
+            exception_class = ElementClickInterceptedException
+        elif status in ErrorCode.INSECURE_CERTIFICATE:
+            exception_class = InsecureCertificateException
+        elif status in ErrorCode.INVALID_COORDINATES:
+            exception_class = InvalidCoordinatesException
+        elif status in ErrorCode.INVALID_SESSION_ID:
+            exception_class = InvalidSessionIdException
+        elif status in ErrorCode.UNKNOWN_METHOD:
+            exception_class = UnknownMethodException
+        else:
+            exception_class = WebDriverException
+        if value == '' or value is None:
+            value = response['value']
+        if isinstance(value, basestring):
+            if exception_class == ErrorInResponseException:
+                raise exception_class(response, value)
+            raise exception_class(value)
+        if message == "" and 'message' in value:
+            message = value['message']
+    
+        screen = None
+        if 'screen' in value:
+            screen = value['screen']
+    
+        stacktrace = None
+        if 'stackTrace' in value and value['stackTrace']:
+            stacktrace = []
+            try:
+                for frame in value['stackTrace']:
+                    line = self._value_or_default(frame, 'lineNumber', '')
+                    file = self._value_or_default(frame, 'fileName', '<anonymous>')
+                    if line:
+                        file = "%s:%s" % (file, line)
+                    meth = self._value_or_default(frame, 'methodName', '<anonymous>')
+                    if 'className' in frame:
+                        meth = "%s.%s" % (frame['className'], meth)
+                    msg = "    at %s (%s)"
+                    msg = msg % (meth, file)
+                    stacktrace.append(msg)
+            except TypeError:
+                pass
+        if exception_class == ErrorInResponseException:
+            raise exception_class(response, message)
+        elif exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if 'data' in value:
+                alert_text = value['data'].get('text')
+            elif 'alert' in value:
+                alert_text = value['alert'].get('text')
+            raise exception_class(message, screen, stacktrace, alert_text)
+>       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.StaleElementReferenceException: Message: The element reference of <input id="132" name="selected[]" type="checkbox"> is stale; either the element is no longer attached to the DOM, it is not in the current frame context, or the document has been refreshed
+
+..\env\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: StaleElementReferenceException
+============================== warnings summary ===============================
+test_del_contact.py::test_delete_first_contact
+  source:175: DeprecationWarning: invalid escape sequence \_
+  source:191: DeprecationWarning: invalid escape sequence \_
+  source:359: DeprecationWarning: invalid escape sequence \_
+  source:375: DeprecationWarning: invalid escape sequence \_
+  source:626: DeprecationWarning: invalid escape sequence \*
+  source:650: DeprecationWarning: invalid escape sequence \*
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+==================== 1 failed, 6 warnings in 24.89 seconds ====================
+Process finished with exit code 0
