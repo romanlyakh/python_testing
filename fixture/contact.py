@@ -36,10 +36,13 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
-    def modify_first_contact(self, new_contact_data):
+    def modify_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def modify_contact_by_index(self, new_contact_data, index):
         wd = self.app.wd
         self.home()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.fill_contact_form(new_contact_data)
         # submit modify contact
