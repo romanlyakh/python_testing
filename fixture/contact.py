@@ -23,6 +23,7 @@ class ContactHelper:
         wd.find_element_by_css_selector("div.msgbox")
         self.contact_cache = None
 
+
     def home(self):
         wd = self.app.wd
         if not (wd.current_url.endswith('http://localhost/addressbook/') and len(wd.find_elements_by_name("add")) > 0):
@@ -34,8 +35,11 @@ class ContactHelper:
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
-        #wd.find_elements_by_name("selected[]")[index].click()
-        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_contact_for_modif_by_index(self, index):
+            wd = self.app.wd
+            wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
 
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
@@ -43,7 +47,7 @@ class ContactHelper:
     def modify_contact_by_index(self, new_contact_data, index):
         wd = self.app.wd
         self.home()
-        self.select_contact_by_index(index)
+        self.select_contact_for_modif_by_index(index)
 
         self.fill_contact_form(new_contact_data)
         # submit modify contact
