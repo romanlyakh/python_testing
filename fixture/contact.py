@@ -18,7 +18,7 @@ class ContactHelper:
         self.home()
         self.select_contact_by_index(index)
         # submit deletion
-        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.find_element_by_css_selector('input[value="Delete"]').click()
         wd.switch_to.alert.accept()
         wd.find_element_by_css_selector("div.msgbox")
         self.contact_cache = None
@@ -109,7 +109,7 @@ class ContactHelper:
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
         # save contact
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        wd.find_element_by_css_selector('input[value="Enter"]').click()
         self.return_home_page()
         self.contact_cache=None
 
