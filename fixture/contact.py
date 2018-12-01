@@ -78,17 +78,18 @@ class ContactHelper:
         # homepage
         self.change_field_value("homepage", contact.homepage)
         # Birthday
-        wd.find_element_by_name("bday").click()
-        wd.find_element_by_xpath(contact.bday).click()
-        wd.find_element_by_name("bmonth").click()
-        wd.find_element_by_xpath(contact.bmonth).click()
-        self.change_field_value("byear", contact.byear)
+        self.change_field_value("bday", contact.bday)
+        #wd.find_element_by_name("bday").click()
+        #wd.find_element_by_xpath(contact.bday).click()
+        #wd.find_element_by_name("bmonth").click()
+        #wd.find_element_by_xpath(contact.bmonth).click()
+        #self.change_field_value("byear", contact.byear)
         # Anniversary
-        wd.find_element_by_name("aday").click()
-        wd.find_element_by_xpath(contact.aday).click()
-        wd.find_element_by_name("amonth").click()
-        wd.find_element_by_xpath(contact.amonth).click()
-        self.change_field_value("ayear", contact.ayear)
+        #wd.find_element_by_name("aday").click()
+        #wd.find_element_by_xpath(contact.aday).click()
+        #wd.find_element_by_name("amonth").click()
+        #wd.find_element_by_xpath(contact.amonth).click()
+        #self.change_field_value("ayear", contact.ayear)
 
         # add address2
         self.change_field_value("address2", contact.address2)
