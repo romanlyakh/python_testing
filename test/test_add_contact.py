@@ -15,11 +15,12 @@ def random_tel (prefix, maxlen):
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
+
 testdata = [
            Contact(firstname=firstname, lastname=lastname, home=home)
             for firstname in ["", random_string("firstname", 15)]
             for lastname in ["", random_string("lastname", 15)]
-            for home in ["", random_tel("home", 10)]
+            for home in ["", random_tel("home ", 10)]
             ]
 
 @pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
