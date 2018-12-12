@@ -13,7 +13,7 @@ target=None
 def load_cofig(file):
     global target
     if target is None:
-        config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)),file)
+        config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), file)
         with open(config_file) as f:
             target = json.load(f)
     return target
@@ -45,9 +45,14 @@ def stop(request):
     request.addfinalizer(fin)
     return fixture
 
+@pytest.fixture
+def check_ui(request):
+    return request.config.getoption("--check_ui")
+
 def pytest_addoption(parser):
     parser.addoption("--browser", action= "store", default= "firefox")
     parser.addoption("--target", action="store", default="target.json")
+    parser.addoption("--check_ui", action="store_true")
 
 def pytest_generate_tests(metafunc):
     for fixture in metafunc.fixturenames:
