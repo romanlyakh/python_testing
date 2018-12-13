@@ -59,6 +59,19 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
+
+    def modify_group_by_id(self, new_group_data, id):
+        wd = self.app.wd
+        self.open_groups_page()
+        self.select_group_by_id(id)
+        # open modification form
+        wd.find_element_by_name("edit").click()
+        self.fill_group_form(new_group_data)
+        # submit modify
+        wd.find_element_by_name("update").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
     def create(self, group):
         wd = self.app.wd
         # init group creation
@@ -106,3 +119,8 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, id=id))
         return list(self.group_cache)
+
+
+
+    def clean(self, group):
+        return Group(id=group.id, name=group.name.strip())

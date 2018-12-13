@@ -24,6 +24,16 @@ class ContactHelper:
         wd.find_element_by_css_selector("div.msgbox")
         self.contact_cache = None
 
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.home()
+        self.select_contact_by_id(id)
+        # submit deletion
+        wd.find_element_by_css_selector('input[value="Delete"]').click()
+        wd.switch_to.alert.accept()
+        wd.find_element_by_css_selector("div.msgbox")
+        self.contact_cache = None
+
 
     def home(self):
         wd = self.app.wd
@@ -38,9 +48,17 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
     def select_contact_for_modif_by_index(self, index):
             wd = self.app.wd
             wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+
+    def select_contact_for_modif_by_id(self, id):
+            wd = self.app.wd
+            wd.find_element_by_css_selector('a[href="edit.php?id=%s"]' % id).click()
 
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
@@ -49,6 +67,17 @@ class ContactHelper:
         wd = self.app.wd
         self.home()
         self.select_contact_for_modif_by_index(index)
+
+        self.fill_contact_form(new_contact_data)
+        # submit modify contact
+        wd.find_element_by_name("update").click()
+        self.return_home_page()
+        self.contact_cache = None
+
+    def modify_contact_by_id(self, new_contact_data, id):
+        wd = self.app.wd
+        self.home()
+        self.select_contact_for_modif_by_id(id)
 
         self.fill_contact_form(new_contact_data)
         # submit modify contact
@@ -78,7 +107,7 @@ class ContactHelper:
         # homepage
         self.change_field_value("homepage", contact.homepage)
         # Birthday
-        self.change_field_value("bday", contact.bday)
+        #self.change_field_value("bday", contact.bday)
         #wd.find_element_by_name("bday").click()
         #wd.find_element_by_xpath(contact.bday).click()
         #wd.find_element_by_name("bmonth").click()
