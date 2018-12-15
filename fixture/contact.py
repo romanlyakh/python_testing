@@ -214,11 +214,9 @@ class ContactHelper:
         wd = self.app.wd
         self.home()
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
-
         add_to_group = wd.find_element_by_css_selector("select[name='to_group']")
         selector = Select(add_to_group)
         selector.select_by_value(group_id)
         wd.find_element_by_css_selector("input[name='add']").click()
-
         self.return_home_page()
         self.contact_cache = None
