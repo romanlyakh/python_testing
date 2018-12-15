@@ -36,7 +36,6 @@ def test_home_contact_compare_db(app, db):
     assert home_contacts == db_contacts
 
 def contact_on_home_page(self, contact):
-    contact = contact
     firstname = contact.firstname.strip()
     lastname = contact.lastname.strip()
     all_phones = self.merge_phones_like_on_home_page(contact)
