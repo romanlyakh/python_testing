@@ -169,6 +169,24 @@ class ContactHelper:
                                                   all_emails_from_home_page=all_emails))
         return list(self.contact_cache)
 
+    def get_contacts_list_in_group(self, id_group):
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.home()
+            wd.find_element_by_xpath('//select[@name="group"]/option[@value="%s"]' % id_group).click()
+            self.contact_cache = []
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_elements_by_tag_name("td")
+                lastname = cells[1].text
+                firstname = cells[2].text
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+                address = cells[3].text
+                all_emails = cells[4].text
+                all_phones = cells[5].text
+                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id, address=address, all_phones_from_home_page=all_phones,
+                                                  all_emails_from_home_page=all_emails))
+        return list(self.contact_cache)
+
     def open_contact_view_by_index(self,index):
         wd = self.app.wd
         self.home()
@@ -210,13 +228,31 @@ class ContactHelper:
         phone2 = re.search("P: (.*)", text).group(1)
         return Contact(home=home, work=work, mobile=mobile, phone2=phone2)
 
-    def add_contact_to_group(self, id, group_id):
+    def add_contact_to_group(self, id, id_group):
         wd = self.app.wd
         self.home()
-        wd.find_element_by_css_selector("input[value='%s']" % id).click()
-        add_to_group = wd.find_element_by_css_selector("select[name='to_group']")
-        selector = Select(add_to_group)
-        selector.select_by_value(group_id)
-        wd.find_element_by_css_selector("input[name='add']").click()
-        self.return_home_page()
+        self.select_contact_by_id(id)
+        wd.find_element_by_xpath('//select[@name="to_group"]/option[@value="%s"]' % id_group).click()
+        wd.find_element_by_name("add").click()
+        self.home()
         self.contact_cache = None
+
+    def del_contact_from_group(self, id, id_group):
+        wd = self.app.wd
+        self.home()
+        wd.find_element_by_xpath('//select[@name="group"]/option[@value="%s"]' % id_group).click()
+        self.select_contact_by_id(id)
+        wd.find_element_by_xpath("//input[@name='remove']").click()
+        self.home()
+        self.contact_cache = None
+
+    def add_contact_in_group_by_id(self, id, group_name):
+        wd = self.app.wd
+        self.home()
+        self.select_contact_by_id(id)
+            # add group
+        Select(wd.find_element_by_name("to_group")).select_by_visible_text(group_name)
+        #time.sleep(1)
+        wd.find_element_by_name("add").click()
+        self.home()
+        self.contacts_cache = None
