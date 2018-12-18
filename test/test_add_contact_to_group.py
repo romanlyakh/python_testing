@@ -4,7 +4,13 @@ import random
 
 
 def test_add_contact_to_group(app, db, orm):
-    if len(db.get_contact_list()) == 0:
+    if len(db.get_group_list()) == 0:
+        app.group.create(Group(name="testname", header="testheader", footer="testfooter"))
+
+    id_group = app.group.select_id_group()
+    contacts = orm.get_contacts_in_group(Group(id=id_group))
+
+    if len(orm.get_contacts_not_in_group(Group(id=id_group))) == 0:
         app.contact.add(Contact(firstname="", middlename="", lastname="", nickname="",
                                 title="", company="", address="",
                                 home="", mobile="", work="",
@@ -14,10 +20,7 @@ def test_add_contact_to_group(app, db, orm):
                                 phone2="home_test", bday="//option[@value='11']",
                                 bmonth="//option[@value='January']", notes="notes_test",
                                 aday="(//option[@value='11'])[2]", amonth="(//option[@value='January'])[2]"))
-    old_contacts = app.contact.get_contact_list()
-    contact = random.choice(old_contacts)
-    id_group = app.group.select_id_group()
+    contact = random.choice(orm.get_contacts_not_in_group(Group(id=id_group)))
     app.contact.add_contact_to_group(contact.id, id_group)
-    new_contacts = app.contact.get_contacts_list_in_group(id_group)
     list_orm = orm.get_contacts_in_group(Group(id=id_group))
-    assert sorted(new_contacts, key=Contact.id_or_max) == sorted(list_orm, key=Contact.id_or_max)
+    assert len(list_orm)-1 == len(contacts)
