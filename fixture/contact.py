@@ -245,14 +245,3 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@name='remove']").click()
         self.home()
         self.contact_cache = None
-
-    def add_contact_in_group_by_id(self, id, group_name):
-        wd = self.app.wd
-        self.home()
-        self.select_contact_by_id(id)
-            # add group
-        Select(wd.find_element_by_name("to_group")).select_by_visible_text(group_name)
-        #time.sleep(1)
-        wd.find_element_by_name("add").click()
-        self.home()
-        self.contacts_cache = None

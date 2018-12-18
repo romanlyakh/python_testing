@@ -17,6 +17,9 @@ def test_contact_verif_on_home_page(app):
 def clear(s):
         return re.sub("[() -]", "", s)
 
+def clear_for_address(s):
+    return re.sub("\\r", "", s)
+
 def merge_phones_like_on_home_page(contact):
         return "\n".join(filter(lambda x: x != "",
                                 map(lambda x: clear(x),
@@ -31,9 +34,25 @@ def merge_emails_like_on_home_page(contact):
 
 
 def test_home_contact_compare_db(app, db):
-    home_contacts = sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
-    db_contacts = sorted(db.get_contact_list(), key=Contact.id_or_max)
-    assert home_contacts == db_contacts
+    db_contacts = db.get_contact_list()
+    home_contacts = app.contact.get_contact_list()
+    assert sorted(home_contacts, key=Contact.id_or_max) == sorted(db_contacts, key=Contact.id_or_max)
+
+    for item in home_contacts:
+        db_contact = list(filter(lambda x: x.id == item.id, db_contacts))[0]
+        assert item.address == clear_for_address(db_contact.address)
+        assert item.all_phones_from_home_page == merge_phones_like_on_home_page(
+            db_contact)
+        assert item.all_emails_from_home_page == merge_emails_like_on_home_page(
+            db_contact)
+
+
+
+
+
+
+
+
 
 def contact_on_home_page(self, contact):
     firstname = contact.firstname.strip()
